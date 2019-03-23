@@ -560,6 +560,7 @@ function funcDraw_Countries(svgCountries, d, i,
 					showDislikeRatio(sClassName);
 
 					let formatNumStr = d3.format(",");
+					let formatPercent = d3.format(".2p");
 
 					let pt_x = fScale_Month_PT(getMonthCount(nMonth_Min, d_month.month));
 
@@ -630,6 +631,13 @@ function funcDraw_Countries(svgCountries, d, i,
 
 					d3.select("#text_id_month_subtitle").remove();
 
+					let nTotal = d_month.total;
+					let nPleasure = d_month.pleasure;
+					let nBusiness = d_month.business + d_month.conference + d_month.exhibition;
+					let nVisitRelatives = d_month.visit_relatives;
+					let nStudy = d_month.study;
+					let nOthers = d_month.medical_treatment + d_month.others + d_month.unstated;
+
 					svgCountries.append("text")
 									.attr("id", "text_id_month_subtitle")
 									.attr("class", "font_size_10 color_main")
@@ -637,27 +645,56 @@ function funcDraw_Countries(svgCountries, d, i,
 									.attr("y", (fScale_Country(i) + COUNTRY_HEIGHT + 25) + "pt")
 									.attr("text-anchor", text_anchor)
 										.append("tspan")
-											.text((vTouristType[TOURIST_TYPE_TOTAL].path_display) ? formatNumStr(d_month.total) + " " : "")
+											.text((vTouristType[TOURIST_TYPE_TOTAL].path_display) ? formatNumStr(nTotal) + " " : "")
 											.attr("fill", vTouristType[TOURIST_TYPE_TOTAL].color)
 										.append("tspan")
-											.text((vTouristType[TOURIST_TYPE_PLEASURE].path_display) ? formatNumStr(d_month.pleasure) + " " : "")
+											.text((vTouristType[TOURIST_TYPE_PLEASURE].path_display) ? formatNumStr(nPleasure) + " " : "")
 											.attr("fill", vTouristType[TOURIST_TYPE_PLEASURE].color)
 										.append("tspan")
-											.text((vTouristType[TOURIST_TYPE_BUSINESS].path_display) ? formatNumStr(d_month.business + d_month.conference + d_month.exhibition) + " " : "")
+											.text((vTouristType[TOURIST_TYPE_BUSINESS].path_display) ? formatNumStr(nBusiness) + " " : "")
 											.attr("fill", vTouristType[TOURIST_TYPE_BUSINESS].color)
 										.append("tspan")
-											.text((vTouristType[TOURIST_TYPE_VISIT_RELATIVES].path_display) ? formatNumStr(d_month.visit_relatives) + " " : "")
+											.text((vTouristType[TOURIST_TYPE_VISIT_RELATIVES].path_display) ? formatNumStr(nVisitRelatives) + " " : "")
 											.attr("fill", vTouristType[TOURIST_TYPE_VISIT_RELATIVES].color)
 										.append("tspan")
-											.text((vTouristType[TOURIST_TYPE_STUDY].path_display) ? formatNumStr(d_month.study) + " " : "")
+											.text((vTouristType[TOURIST_TYPE_STUDY].path_display) ? formatNumStr(nStudy) + " " : "")
 											.attr("fill", vTouristType[TOURIST_TYPE_STUDY].color)
 										.append("tspan")
-											.text((vTouristType[TOURIST_TYPE_OTHERS].path_display) ? formatNumStr(d_month.medical_treatment + d_month.others) + " " : "")
+											.text((vTouristType[TOURIST_TYPE_OTHERS].path_display) ? formatNumStr(nOthers) + " " : "")
 											.attr("fill", vTouristType[TOURIST_TYPE_OTHERS].color)
 										.append("tspan")
 											.text("visited")
 											.attr("fill", COLOR_MAIN);
 
+					d3.select("#text_id_month_subtitle_2").remove();
+
+					svgCountries.append("text")
+									.attr("id", "text_id_month_subtitle_2")
+									.attr("class", "font_size_10 color_main")
+									.attr("x", pt_x_text + "pt")
+									.attr("y", (fScale_Country(i) + COUNTRY_HEIGHT + 36) + "pt")
+									.attr("text-anchor", text_anchor)
+										.append("tspan")
+											.text((vTouristType[TOURIST_TYPE_TOTAL].path_display) ? formatNumStr(nTotal) + " " : "")
+											.attr("fill", COLOR_BACKGROUND)
+										.append("tspan")
+											.text((vTouristType[TOURIST_TYPE_PLEASURE].path_display) ? formatPercent(nPleasure / nTotal) + " " : "")
+											.attr("fill", vTouristType[TOURIST_TYPE_PLEASURE].color)
+										.append("tspan")
+											.text((vTouristType[TOURIST_TYPE_BUSINESS].path_display) ? formatPercent(nBusiness / nTotal) + " " : "")
+											.attr("fill", vTouristType[TOURIST_TYPE_BUSINESS].color)
+										.append("tspan")
+											.text((vTouristType[TOURIST_TYPE_VISIT_RELATIVES].path_display) ? formatPercent(nVisitRelatives / nTotal) + " " : "")
+											.attr("fill", vTouristType[TOURIST_TYPE_VISIT_RELATIVES].color)
+										.append("tspan")
+											.text((vTouristType[TOURIST_TYPE_STUDY].path_display) ? formatPercent(nStudy / nTotal) + " " : "")
+											.attr("fill", vTouristType[TOURIST_TYPE_STUDY].color)
+										.append("tspan")
+											.text((vTouristType[TOURIST_TYPE_OTHERS].path_display) ? formatPercent(nOthers / nTotal) + " " : "")
+											.attr("fill", vTouristType[TOURIST_TYPE_OTHERS].color)
+										.append("tspan")
+											.text("visited")
+											.attr("fill", COLOR_BACKGROUND);
 			    })
 				.on("mouseout", function (d_month) {
 
@@ -694,7 +731,7 @@ function funcDraw_CountryTitle(svgCountries, d, i,
 	d3.select("#rect_id_month_mode_" + sClassName).remove();
 	d3.select("#text_id_month_mode_" + sClassName).remove();
 
-	let padding_top = 40;
+	let padding_top = 45;
 	let text_spacing = 18;
 	let title_font_size = 10;
 	//let subtitle_font_size = 3;
@@ -949,6 +986,9 @@ function hideDislikeRatio(nChannelID) {
 		.attr("fill-opacity", 0);
 
 	d3.select("#text_id_month_subtitle")
+		.attr("fill-opacity", 0);
+
+	d3.select("#text_id_month_subtitle_2")
 		.attr("fill-opacity", 0);
 
 	d3.select("#line_id_month_select")

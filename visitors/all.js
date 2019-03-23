@@ -329,6 +329,7 @@ function funcDraw_AllMonthes(svgAll, d,
 					showMonthCircles_All();
 
 					let formatNumStr = d3.format(",");
+					let formatPercent = d3.format(".2p");
 
 					let pt_x = fScale_Month_PT(getMonthCount(nMonth_Min, d_month.key));
 
@@ -386,6 +387,13 @@ function funcDraw_AllMonthes(svgAll, d,
 
 					d3.select("#text_id_month_subtitle").remove();
 
+					let nTotal = d3.sum(d_month.values, vTouristType[TOURIST_TYPE_TOTAL].data);
+					let nPleasure = d3.sum(d_month.values, vTouristType[TOURIST_TYPE_PLEASURE].data);
+					let nBusiness = d3.sum(d_month.values, vTouristType[TOURIST_TYPE_BUSINESS].data);
+					let nVisitRelatives = d3.sum(d_month.values, vTouristType[TOURIST_TYPE_VISIT_RELATIVES].data);
+					let nStudy = d3.sum(d_month.values, vTouristType[TOURIST_TYPE_STUDY].data);
+					let nOthers = d3.sum(d_month.values, vTouristType[TOURIST_TYPE_OTHERS].data);
+
 					svgAll.append("text")
 									.attr("id", "text_id_month_subtitle")
 									.attr("class", "font_size_10 color_main")
@@ -393,26 +401,56 @@ function funcDraw_AllMonthes(svgAll, d,
 									.attr("y", (fScale_All(0) + ALL_HEIGHT + 25) + "pt")
 									.attr("text-anchor", text_anchor)
 										.append("tspan")
-											.text((vTouristType[TOURIST_TYPE_TOTAL].path_display) ? formatNumStr(d3.sum(d_month.values, function (_d) { return _d.total; })) + " " : "")
+											.text((vTouristType[TOURIST_TYPE_TOTAL].path_display) ? formatNumStr(nTotal) + " " : "")
 											.attr("fill", vTouristType[TOURIST_TYPE_TOTAL].color)
 										.append("tspan")
-											.text((vTouristType[TOURIST_TYPE_PLEASURE].path_display) ? formatNumStr(d3.sum(d_month.values, function (_d) { return _d.pleasure; })) + " " : "")
+											.text((vTouristType[TOURIST_TYPE_PLEASURE].path_display) ? formatNumStr(nPleasure) + " " : "")
 											.attr("fill", vTouristType[TOURIST_TYPE_PLEASURE].color)
 										.append("tspan")
-											.text((vTouristType[TOURIST_TYPE_BUSINESS].path_display) ? formatNumStr(d3.sum(d_month.values, function (_d) { return _d.business + _d.conference + _d.exhibition; })) + " " : "")
+											.text((vTouristType[TOURIST_TYPE_BUSINESS].path_display) ? formatNumStr(nBusiness) + " " : "")
 											.attr("fill", vTouristType[TOURIST_TYPE_BUSINESS].color)
 										.append("tspan")
-											.text((vTouristType[TOURIST_TYPE_VISIT_RELATIVES].path_display) ? formatNumStr(d3.sum(d_month.values, function (_d) { return _d.visit_relatives; })) + " " : "")
+											.text((vTouristType[TOURIST_TYPE_VISIT_RELATIVES].path_display) ? formatNumStr(nVisitRelatives) + " " : "")
 											.attr("fill", vTouristType[TOURIST_TYPE_VISIT_RELATIVES].color)
 										.append("tspan")
-											.text((vTouristType[TOURIST_TYPE_STUDY].path_display) ? formatNumStr(d3.sum(d_month.values, function (_d) { return _d.study; })) + " " : "")
+											.text((vTouristType[TOURIST_TYPE_STUDY].path_display) ? formatNumStr(nStudy) + " " : "")
 											.attr("fill", vTouristType[TOURIST_TYPE_STUDY].color)
 										.append("tspan")
-											.text((vTouristType[TOURIST_TYPE_OTHERS].path_display) ? formatNumStr(d3.sum(d_month.values, function (_d) { return _d.medical_treatment + _d.others + _d.unstated; })) + " " : "")
+											.text((vTouristType[TOURIST_TYPE_OTHERS].path_display) ? formatNumStr(nOthers) + " " : "")
 											.attr("fill", vTouristType[TOURIST_TYPE_OTHERS].color)
 										.append("tspan")
 											.text("visited")
 											.attr("fill", COLOR_MAIN);
+
+					d3.select("#text_id_month_subtitle_2").remove();
+
+					svgAll.append("text")
+									.attr("id", "text_id_month_subtitle_2")
+									.attr("class", "font_size_10 color_main")
+									.attr("x", pt_x_text + "pt")
+									.attr("y", (fScale_All(0) + ALL_HEIGHT + 36) + "pt")
+									.attr("text-anchor", text_anchor)
+										.append("tspan")
+											.text((vTouristType[TOURIST_TYPE_TOTAL].path_display) ? formatNumStr(nTotal) + " " : "")
+											.attr("fill", COLOR_BACKGROUND)
+										.append("tspan")
+											.text((vTouristType[TOURIST_TYPE_PLEASURE].path_display) ? formatPercent(nPleasure / nTotal) + " " : "")
+											.attr("fill", vTouristType[TOURIST_TYPE_PLEASURE].color)
+										.append("tspan")
+											.text((vTouristType[TOURIST_TYPE_BUSINESS].path_display) ? formatPercent(nBusiness / nTotal) + " " : "")
+											.attr("fill", vTouristType[TOURIST_TYPE_BUSINESS].color)
+										.append("tspan")
+											.text((vTouristType[TOURIST_TYPE_VISIT_RELATIVES].path_display) ? formatPercent(nVisitRelatives / nTotal) + " " : "")
+											.attr("fill", vTouristType[TOURIST_TYPE_VISIT_RELATIVES].color)
+										.append("tspan")
+											.text((vTouristType[TOURIST_TYPE_STUDY].path_display) ? formatPercent(nStudy / nTotal) + " " : "")
+											.attr("fill", vTouristType[TOURIST_TYPE_STUDY].color)
+										.append("tspan")
+											.text((vTouristType[TOURIST_TYPE_OTHERS].path_display) ? formatPercent(nOthers / nTotal) + " " : "")
+											.attr("fill", vTouristType[TOURIST_TYPE_OTHERS].color)
+										.append("tspan")
+											.text("visited")
+											.attr("fill", COLOR_BACKGROUND);
 
 			    })
 				.on("mouseout", function (d_month) {
@@ -496,6 +534,10 @@ function hideMonthCircles_All() {
 		.attr("y", -100 + "pt");
 
 	d3.select("#text_id_month_subtitle")
+		.attr("x", -100 + "pt")
+		.attr("y", -100 + "pt");
+
+	d3.select("#text_id_month_subtitle_2")
 		.attr("x", -100 + "pt")
 		.attr("y", -100 + "pt");
 

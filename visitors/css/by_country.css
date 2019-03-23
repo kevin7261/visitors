@@ -43,7 +43,8 @@
   fill-opacity: 1;
 }
 
-#text_id_month_subtitle {
+#text_id_month_subtitle, 
+#text_id_month_subtitle_2 {
 
   stroke-opacity: 0;
   fill-opacity: 1;

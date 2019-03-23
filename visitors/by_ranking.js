@@ -86,7 +86,7 @@ function funcDraw_ByRanking_Main() {
 						  		case TOURIST_TYPE_BUSINESS: 		return d3.descending(a.business + a.conference + a.exhibition, b.business + b.conference + b.exhibition); break;
 						  		case TOURIST_TYPE_VISIT_RELATIVES:  return d3.descending(a.visit_relatives, b.visit_relatives); break;
 						  		case TOURIST_TYPE_STUDY: 			return d3.descending(a.study, b.study); break;
-						  		case TOURIST_TYPE_OTHERS: 			return d3.descending(a.medical_treatment + a.others, b.medical_treatment + b.others); break;
+						  		case TOURIST_TYPE_OTHERS: 			return d3.descending(a.medical_treatment + a.others + a.unstated, b.medical_treatment + b.others + b.unstated); break;
 						  	}
 						});
 
@@ -198,7 +198,7 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 																  		case TOURIST_TYPE_BUSINESS: 		return d3.descending(a.business + a.conference + a.exhibition, b.business + b.conference + b.exhibition); break;
 																  		case TOURIST_TYPE_VISIT_RELATIVES:  return d3.descending(a.visit_relatives, b.visit_relatives); break;
 																  		case TOURIST_TYPE_STUDY: 			return d3.descending(a.study, b.study); break;
-																  		case TOURIST_TYPE_OTHERS: 			return d3.descending(a.medical_treatment + a.others, b.medical_treatment + b.others); break;
+																  		case TOURIST_TYPE_OTHERS: 			return d3.descending(a.medical_treatment + a.others + a.unstated, b.medical_treatment + b.others + b.unstated); break;
 																  	}
 																  	//return d3.descending(a.total, b.total);
 																});
@@ -242,7 +242,7 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 													  		case TOURIST_TYPE_BUSINESS: 		return _d.business + _d.conference + _d.exhibition; break;
 													  		case TOURIST_TYPE_VISIT_RELATIVES:  return _d.visit_relatives; break;
 													  		case TOURIST_TYPE_STUDY: 			return _d.study; break;
-													  		case TOURIST_TYPE_OTHERS: 			return _d.medical_treatment + _d.others; break;
+													  		case TOURIST_TYPE_OTHERS: 			return _d.medical_treatment + _d.others + _d.unstated; break;
 													  	}
 													}
 												});
@@ -262,7 +262,7 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 													  		case TOURIST_TYPE_BUSINESS: 		return _d.business + _d.conference + _d.exhibition; break;
 													  		case TOURIST_TYPE_VISIT_RELATIVES:  return _d.visit_relatives; break;
 													  		case TOURIST_TYPE_STUDY: 			return _d.study; break;
-													  		case TOURIST_TYPE_OTHERS: 			return _d.medical_treatment + _d.others; break;
+													  		case TOURIST_TYPE_OTHERS: 			return _d.medical_treatment + _d.others + _d.unstated; break;
 													  	}
 													}
 												});
@@ -314,7 +314,7 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 					  		case TOURIST_TYPE_BUSINESS: 		nCount = d.business + d.conference + d.exhibition; break;
 					  		case TOURIST_TYPE_VISIT_RELATIVES:  nCount = d.visit_relatives; break;
 					  		case TOURIST_TYPE_STUDY: 			nCount = d.study; break;
-					  		case TOURIST_TYPE_OTHERS: 			nCount = d.medical_treatment + d.others; break;
+					  		case TOURIST_TYPE_OTHERS: 			nCount = d.medical_treatment + d.others + d.unstated; break;
 					  	}
 
 						let fPercent = nCount / nSum;
