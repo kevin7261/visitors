@@ -137,6 +137,10 @@ function funcDraw_Monthes_TouristTypes(svgMonth,
 							 nType);
 	}
 
+	svgMonth.select("#text_id_count_max")
+				.attr("y", (MAIN_WIDTH / 4 + 15 - funcGetSVGMain_PT(fScale_Radius(g_nMonthCount_Max)) - 5) + "pt")
+				.text(g_nMonthCount_Max);
+
 	svgMonth.select("#circle_id_month_ruler_1")
 				.attr("r", funcGetSVGMain_PT(fScale_Radius(g_nMonthCount_Max)) + "pt");
 
@@ -271,18 +275,24 @@ function funcDraw_MonthInfo(svgMonth) {
 
 function funcDraw_MonthRuler(svgMonth) {
 
+	svgMonth.append("text")
+				.attr("id", "text_id_count_max")
+				.attr("class", "font_size_10 color_main text_anchor_middle")
+				.attr("x", (MAIN_WIDTH / 2) + "pt")
+				.attr("y", (MAIN_WIDTH / 4 + 15) + "pt")
+				.text("");
+
 	svgMonth.append("circle")
 				.attr("id", "circle_id_month_ruler_1")
 				.attr("class", "color_main circle_class_month_ruler")
-				.attr("cx", function(d_month) { return (MAIN_WIDTH / 2) + "pt"; })
-				.attr("cy", function(d_month) { return (MAIN_WIDTH / 4 + 15) + "pt"; });
+				.attr("cx", (MAIN_WIDTH / 2) + "pt")
+				.attr("cy", (MAIN_WIDTH / 4 + 15) + "pt");
 
 	svgMonth.append("circle")
 				.attr("id", "circle_id_month_ruler_2")
 				.attr("class", "color_main circle_class_month_ruler")
-				.attr("cx", function(d_month) { return (MAIN_WIDTH / 2) + "pt"; })
-				.attr("cy", function(d_month) { return (MAIN_WIDTH / 4 + 15) + "pt"; });
-				//.attr("r", funcGetSVGMain_PT(fScale_Radius(g_nMonthCount_Max)) + "pt");
+				.attr("cx", (MAIN_WIDTH / 2) + "pt")
+				.attr("cy", (MAIN_WIDTH / 4 + 15) + "pt");
 }
 
 function funcDraw_MonthTitle(svgMonth) {

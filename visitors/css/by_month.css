@@ -11,6 +11,12 @@
   	fill-opacity: 0.4;
 }
 
+#text_id_count_max {
+
+  	stroke-opacity: 0;
+  	fill-opacity: 0.4;
+}
+
 .circle_class_month_ruler {
 
 	stroke-width: 0.2pt;
