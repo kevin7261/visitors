@@ -140,8 +140,6 @@ div {
   margin-right: 50pt;
 }
 
-
-
 .span_class_pages {
 
   color: #FCFCFC;
@@ -172,6 +170,11 @@ div {
   text-indent: 0pt;
 
   letter-spacing: 0.5pt;　
+}
+
+#a_id_options_data_source {
+
+  text-decoration:none;
 }
 
 .span_class_pages:hover {
