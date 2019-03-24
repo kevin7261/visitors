@@ -1,5 +1,6 @@
 
-.text_class_month_rank {
+.text_class_month_rank,
+#text_id_month_selected {
 
   stroke-opacity: 0;
   fill-opacity: 1;

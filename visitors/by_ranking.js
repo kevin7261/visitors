@@ -344,6 +344,14 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 							.attr("fill", cType)
 							.text(formatNumStr(nSum));//.text((nRank + 1));
 
+						d3.select("#text_id_month_selected")
+							.attr("x", fScale_Month_PT(getMonthCount(nMonth_Min, nMonth)) + "pt")
+							.attr("y", ALL_HEIGHT + 12 + "pt")
+							.attr("fill", cType)
+							.text(sMonthYear);
+
+							console.log(sMonthYear);
+
 						// ----------
 
 						d3.selectAll(".line_class_month_" + nMonth)
@@ -405,6 +413,11 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 						return (ALL_HEIGHT - fScale_Total_PT(nSum) - 5) + "pt"; 
 					})
 			.text("");
+
+	svgRankLine.append("text")
+					.attr("id", "text_id_month_selected")
+					.attr("class", "font_size_10 color_main")
+					.text("");
 
 	// ----------------------------
 
