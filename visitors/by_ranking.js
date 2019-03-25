@@ -105,8 +105,8 @@ function funcDraw_ByRanking_Main() {
 
 	funcDraw_RankInfo(svgRank);
 
-	$("#div_id_main").css("height", "500pt");
-	$("#svg_id_main").css("height", "500pt");
+	$("#div_id_main").css("height", "400pt");
+	$("#svg_id_main").css("height", "400pt");
 }
 
 var vTopCountries = [];
@@ -344,7 +344,7 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 							.attr("fill", cType)
 							.text(formatNumStr(nSum));//.text((nRank + 1));
 
-						d3.select("#text_id_month_selected")
+						d3.select("#text_id_month_selected_rank")
 							.attr("x", fScale_Month_PT(getMonthCount(nMonth_Min, nMonth)) + "pt")
 							.attr("y", ALL_HEIGHT + 12 + "pt")
 							.attr("fill", cType)
@@ -415,7 +415,7 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 			.text("");
 
 	svgRankLine.append("text")
-					.attr("id", "text_id_month_selected")
+					.attr("id", "text_id_month_selected_rank")
 					.attr("class", "font_size_10 color_main")
 					.text("");
 

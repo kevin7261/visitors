@@ -97,8 +97,8 @@ function funcDraw_ByMonth_Main() {
 
 	// ---------------------------------------------------------------
 
-	$("#div_id_main").css("height", "500pt");
-	$("#svg_id_main").css("height", "500pt");
+	$("#div_id_main").css("height", "400pt");
+	$("#svg_id_main").css("height", "400pt");
 }
 
 function funcDraw_Monthes_TouristTypes(svgMonth, 

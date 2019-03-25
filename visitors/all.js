@@ -165,8 +165,8 @@ function funcDraw_All_Main() {
 						  fScale_Total_PX, 
 						  fScale_All);
 
-	$("#div_id_main").css("height", "600pt");
-	$("#svg_id_main").css("height", "600pt");
+	$("#div_id_main").css("height", "400pt");
+	$("#svg_id_main").css("height", "400pt");
 }
 
 function funcDraw_CountriesDisplay_All(divOptions) {
