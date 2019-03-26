@@ -137,9 +137,11 @@ function funcDraw_Monthes_TouristTypes(svgMonth,
 							 nType);
 	}
 
+	let formatNumStr = d3.format(",");
+
 	svgMonth.select("#text_id_count_max")
 				.attr("y", (MAIN_WIDTH / 4 + 15 - funcGetSVGMain_PT(fScale_Radius(g_nMonthCount_Max)) - 5) + "pt")
-				.text(g_nMonthCount_Max);
+				.text(formatNumStr(g_nMonthCount_Max) + " visited");
 
 	svgMonth.select("#circle_id_month_ruler_1")
 				.attr("r", funcGetSVGMain_PT(fScale_Radius(g_nMonthCount_Max)) + "pt");

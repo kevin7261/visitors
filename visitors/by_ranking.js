@@ -1,11 +1,13 @@
 
 const RANK_LINE_WIDTH = 8;
 
-var ALL_HEIGHT = COUNTRY_HEIGHT * 2.25;
+var ALL_HEIGHT_RANK = COUNTRY_HEIGHT * 1.75;//2.25;
 
 var g_nRankingType = TOURIST_TYPE_TOTAL;//TOURIST_TYPE_OTHERS;//TOURIST_TYPE_VISIT_RELATIVES;//TOURIST_TYPE_BUSINESS;//TOURIST_TYPE_PLEASURE;//TOURIST_TYPE_TOTAL;
 
 var g_fHeightScale = 0.9;
+
+const RANK_SELECTED_SIZE = 8;
 
 function funcDraw_ByRanking_Main() {
 
@@ -52,7 +54,7 @@ function funcDraw_ByRanking_Main() {
 
 	fScale_Total_PT = d3.scaleLinear()
 							.domain([0, g_nTotalCount_Max])
-							.range([0, (ALL_HEIGHT * g_fHeightScale)]);
+							.range([0, (ALL_HEIGHT_RANK * g_fHeightScale)]);
 
 	// ---------------------------------------------------------------
 
@@ -105,8 +107,49 @@ function funcDraw_ByRanking_Main() {
 
 	funcDraw_RankInfo(svgRank);
 
-	$("#div_id_main").css("height", "400pt");
-	$("#svg_id_main").css("height", "400pt");
+	// -----------------------------------------------
+
+	let fScale_Selected = d3.scaleLinear()
+								.domain([1, RANK_SELECTED_SIZE])
+								.range([0 + 80, MAIN_WIDTH - 80]);
+
+	for (let nRank = 0; nRank < RANK_SELECTED_SIZE; nRank++) {
+
+		svgRank.append("circle")
+							.attr("id", "circle_id_country_rank_" + nRank)
+							.attr("class", "circle_class_country_rank")
+							.attr("cx", fScale_Selected(nRank + 1) + "pt")
+							.attr("cy", (ALL_HEIGHT_RANK + 50 - 4) + "pt") 
+							.attr("fill", COLOR_BACKGROUND)
+							.attr("stroke", COLOR_BACKGROUND) 
+							.attr("r", 10 + "pt");
+
+		svgRank.append("text")
+							.attr("id", "text_id_country_rank_" + nRank)
+							.attr("class", "text_class_country_rank font_size_10 font_weight_600")
+							.attr("x", fScale_Selected(nRank + 1) + "pt")
+							.attr("y", (ALL_HEIGHT_RANK + 50) + "pt")
+							.text("");
+
+		svgRank.append("text")
+							.attr("id", "text_id_country_name_" + nRank)
+							.attr("class", "text_class_country_name font_size_12")
+							.attr("x", fScale_Selected(nRank + 1) + "pt")
+							.attr("y", (ALL_HEIGHT_RANK + 75) + "pt")
+							.text("");
+
+		svgRank.append("text")
+							.attr("id", "text_id_country_percent_" + nRank)
+							.attr("class", "text_class_country_percent font_size_10")
+							.attr("x", fScale_Selected(nRank + 1) + "pt")
+							.attr("y", (ALL_HEIGHT_RANK + 95) + "pt")
+							.text("");
+	}
+
+	// -----------------------------------------------
+
+	$("#div_id_main").css("height", "380pt");
+	$("#svg_id_main").css("height", "380pt");
 }
 
 var vTopCountries = [];
@@ -180,12 +223,12 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 	// -------
 
 	let svgRankLine = svgRank.append("svg")
-				.attr("id", "svg_id_rank")
-				.attr("class", "svg_class_rank")
-				.attr("width", MAIN_WIDTH + "pt")
-				.attr("height", (ALL_HEIGHT * 2) + "pt")
-				.attr("x", 0 + "pt")
-				.attr("y", fScale_All(0) + "pt");
+								.attr("id", "svg_id_rank")
+								.attr("class", "svg_class_rank")
+								.attr("width", MAIN_WIDTH + "pt")
+								.attr("height", (ALL_HEIGHT_RANK + 20) + "pt")
+								.attr("x", 0 + "pt")
+								.attr("y", fScale_All(0) + "pt");
 
 	// -------
 
@@ -223,12 +266,14 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 		let dsMonth = dsMonthes[nMonthIdx].values;
 		let nCountryCount = dsMonthes[nMonthIdx].values.length;
 
+		let nCountSum = d3.sum(dsMonth, vTouristType[g_nRankingType].data);
+
 		svgRankLine.selectAll("line.line_class_month_" + nMonth)
 			.data(dsMonth)
 			.enter()
 				.append("line")
 					.attr("id", function(d) { return "line_id_month_" + nMonth + "_" + d.class_residence; })
-					.attr("class", "line_class_month_" + nMonth)
+					.attr("class", function(d) { return "line_class_month_" + nMonth + " line_class_month_" + d.class_residence; })
 					.attr("x1", function(d) { return fScale_Month_PT(getMonthCount(nMonth_Min, nMonth)) + "pt"; })
 					.attr("y1", function(d, nRank) { 
 
@@ -247,7 +292,7 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 													}
 												});
 
-												return (ALL_HEIGHT - fScale_Total_PT(nSum)) + "pt"; 
+												return (ALL_HEIGHT_RANK - fScale_Total_PT(nSum)) + "pt"; 
 											})
 					.attr("x2", function(d) { return fScale_Month_PT(getMonthCount(nMonth_Min, nMonth)) + "pt"; })
 					.attr("y2", function(d, nRank) { 
@@ -267,7 +312,7 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 													}
 												});
 
-												return ((ALL_HEIGHT - fScale_Total_PT(nSum)) - 0.25) + "pt"; 
+												return ((ALL_HEIGHT_RANK - fScale_Total_PT(nSum)) - 0.25) + "pt"; 
 											})
 					.attr("stroke-width", RANK_LINE_WIDTH + "pt")
 					.attr("stroke-opacity", 0.8)
@@ -292,12 +337,10 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 
 						d3.select("#circle_id_rank_selected")
 							.attr("stroke", cType)
-							//.attr("stroke", getCountryColor(d.class_residence))
 							.attr("stroke-opacity", 1);
 
 						d3.select("#text_id_rank_selected")
 							.attr("fill", cType)
-							//.attr("fill", getCountryColor(d.class_residence))
 							.text(nRank + 1);
 
 						d3.select("#text_id_country_selected")
@@ -325,32 +368,15 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 
 						// ----------
 
-						/*
-						let vRankList = getCountryMonthRankList(dsMonthes, d.class_residence);
-
-						for (var i = 0; i < vRankList.length; i++) {
-
-							let nMonth = vRankList[i].month;
-							let nRank = vRankList[i].rank;
-
-							d3.select("#text_id_month_rank_" + nMonth)
-								.attr("fill", cDisplay)
-								.attr("fill-opacity", 0.4)
-								.text((nRank > 0) ? nRank : "");
-						}
-						*/
-
 						d3.select("#text_id_month_rank_" + nMonth)
 							.attr("fill", cType)
 							.text(formatNumStr(nSum));//.text((nRank + 1));
 
 						d3.select("#text_id_month_selected_rank")
 							.attr("x", fScale_Month_PT(getMonthCount(nMonth_Min, nMonth)) + "pt")
-							.attr("y", ALL_HEIGHT + 12 + "pt")
+							.attr("y", ALL_HEIGHT_RANK + 12 + "pt")
 							.attr("fill", cType)
 							.text(sMonthYear);
-
-							console.log(sMonthYear);
 
 						// ----------
 
@@ -359,8 +385,50 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 
 						d3.selectAll("#line_id_month_" + nMonth + "_" + d.class_residence)
 							.attr("stroke-width", RANK_LINE_WIDTH + 4 + "pt");
+
+						// ----------
+
+						for (let _nRank = 0; _nRank < RANK_SELECTED_SIZE; _nRank++) {
+
+							let cSelected = getCountryColor(dsMonth[_nRank].class_residence);
+
+							d3.select("#circle_id_country_rank_" + _nRank)
+								.attr("stroke", cSelected);
+
+							d3.select("#text_id_country_rank_" + _nRank)
+								.attr("fill", cSelected)
+								.text(_nRank + 1);
+
+							d3.select("#text_id_country_name_" + _nRank)
+								.attr("fill", cSelected)
+								.text(dsMonth[_nRank].country);
+							
+							let nCount = 0;
+
+							switch (g_nRankingType) {
+											  		case TOURIST_TYPE_TOTAL: 			nCount = dsMonth[_nRank].total; break;
+											  		case TOURIST_TYPE_PLEASURE: 		nCount = dsMonth[_nRank].pleasure; break;
+											  		case TOURIST_TYPE_BUSINESS: 		nCount = dsMonth[_nRank].business + dsMonth[_nRank].conference + dsMonth[_nRank].exhibition; break;
+											  		case TOURIST_TYPE_VISIT_RELATIVES:  nCount = dsMonth[_nRank].visit_relatives; break;
+											  		case TOURIST_TYPE_STUDY: 			nCount = dsMonth[_nRank].study; break;
+											  		case TOURIST_TYPE_OTHERS: 			nCount = dsMonth[_nRank].medical_treatment + dsMonth[_nRank].others + dsMonth[_nRank].unstated; break;
+											  	}
+
+							d3.select("#text_id_country_percent_" + _nRank)
+								.attr("fill", cSelected)
+								.text(formatPercent(nCount / nCountSum));
+						}
+						
+						d3.select("#circle_id_country_rank_" + nRank)
+							.attr("fill", cDisplay);
+
+						d3.select("#text_id_country_rank_" + nRank)
+							.attr("fill", COLOR_BACKGROUND);
+
+						d3.select("#text_id_country_name_" + nRank)
+							.attr("border-bottom-color", cDisplay);
 					})
-					.on("mouseout", function (d) {
+					.on("mouseout", function (d, nRank) {
 
 						hideMonthCircles_Rank();
 
@@ -381,10 +449,10 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 
 							// ----------
 
-						//d3.selectAll(".text_class_month_rank")
-						//	.text("");
-
 						d3.select("#text_id_month_rank_" + nMonth)
+							.text("");
+
+						d3.select("#text_id_month_selected_rank")
 							.text("");
 
 							// ----------
@@ -394,6 +462,24 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 
 						d3.selectAll("#line_id_month_" + nMonth + "_" + d.class_residence)
 							.attr("stroke-width", RANK_LINE_WIDTH + "pt");
+
+						// -----------
+						
+						d3.selectAll(".circle_class_country_rank")
+							.attr("fill", COLOR_BACKGROUND) 
+							.attr("stroke", COLOR_BACKGROUND) 
+
+						d3.selectAll(".text_class_country_rank")
+							.text("");
+
+						d3.selectAll(".text_class_country_name")
+							.text("");
+
+						d3.selectAll(".text_class_country_percent")
+							.text("");
+
+						d3.select("#text_id_country_name_" + nRank)
+							.attr("border-bottom-color", "#223A59");
 					});
 	}
 
@@ -410,9 +496,11 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 
 						let nSum = d3.sum(d.values, vTouristType[g_nRankingType].data);
 
-						return (ALL_HEIGHT - fScale_Total_PT(nSum) - 5) + "pt"; 
+						return (ALL_HEIGHT_RANK - fScale_Total_PT(nSum) - 5) + "pt"; 
 					})
 			.text("");
+
+	// ----------------------------
 
 	svgRankLine.append("text")
 					.attr("id", "text_id_month_selected_rank")
@@ -426,7 +514,7 @@ function funcDraw_ByRankingLine(svgRank, dsMonthes,
 		svgRankLine.append("text")
 					.attr("class", "text_class_month_year_rank font_size_10 color_main")
 					.attr("x", fScale_Month_PT(getMonthCount(nMonth_Min, parseInt(y + "01"))) + "pt")//.attr("x", fScale_Month_PT(getMonthCount(nMonth_Min, parseInt(y + "01"))) + "pt")
-					.attr("y", ALL_HEIGHT + 12 + "pt")
+					.attr("y", ALL_HEIGHT_RANK + 12 + "pt")
 					.text("'" + y);
 	}
 }

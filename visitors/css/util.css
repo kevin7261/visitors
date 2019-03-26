@@ -85,36 +85,42 @@
 
   stroke: #FCFCFC;
   fill: #FCFCFC;  
+  color: #FCFCFC;
 }
 
 .color_pleasure {
 
   stroke: #FF7F50;
-  fill: #FF7F50;  
+  fill: #FF7F50;   
+  color: #FF7F50;
 }
 
 .color_business {
 
   stroke: #FFD700;
   fill: #FFD700;  
+  color: #FFD700;
 }
 
 .color_visit_relatives {
 
   stroke: #ADFF2F;
   fill: #ADFF2F;  
+  color: #ADFF2F; 
 }
 
 .color_study {
 
   stroke: #87CEFA;
   fill: #87CEFA;  
+  color: #87CEFA; 
 }
 
 .color_others {
 
   stroke: #CD853F;
   fill: #CD853F;  
+  color: #CD853F;  
 }
 
 .text_anchor_middle {

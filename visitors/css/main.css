@@ -320,8 +320,6 @@ div {
 }
 
 .span_class_country_text {
-  
-  color: #FCFCFC;
 
   display:inline-block;
  
@@ -365,5 +363,5 @@ div {
 #svg_id_main {
 
   width: 800pt; 
-  height: 300pt;
+  /*height: 300pt;*/
 }
