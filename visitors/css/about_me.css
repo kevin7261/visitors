@@ -12,9 +12,20 @@
 
 #div_id_about_me_title {
 
+  margin-top: 20pt;
+
+  padding-bottom: 3pt;
+
+  display:inline-block;
+
+  border-style: solid;
+
+  border-width: 0pt;
+  border-bottom-width: 1pt;
+  border-bottom-color: #FCFCFC;
 }
 
 #div_id_about_me_content {
 
-  margin-top: 20pt;
+  margin-top: 5pt;
 }
