@@ -40,7 +40,6 @@ let vTouristType =
 		"data": function(d) { return d.total; }, 
 		"fscale_rel": null, 
 		"fscale_ind": null, 
-		"fscale_per": null, 
 		"path_display": true,
 		"line": []
 	},

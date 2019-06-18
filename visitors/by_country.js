@@ -1006,13 +1006,13 @@ function displayOptions(bShowOptions = true)
 
 	if (bShowOptions)
 	{
-		$('#span_id_countries_display').text(sTitle + "　ｘ");
+		$('#span_id_countries_display').text(sTitle + "　ⅹ");
 
 		$('.div_class_countries_panel').show('fast');
 	}
 	else
 	{
-		$('#span_id_countries_display').text(sTitle + "　ｖ");
+		$('#span_id_countries_display').text(sTitle + "　ⅴ");
 
 		$('.div_class_countries_panel').hide('fast');
 	}
